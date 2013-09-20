@@ -30,10 +30,16 @@ public class MainActivity extends ListActivity implements OnItemClickListener {
 	private UserListAdapter adapter;
 	private List<ParseUser> userList;
 	public String partner;
+	private boolean loggedIn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		if(savedInstanceState != null){
+			loggedIn = savedInstanceState.getBoolean("loggedIn");
+		}
+		loggedIn = false;
 
 		// Read Sared Prefs
 		SharedPreferences settings = getSharedPreferences(PREFS, 0);
@@ -57,13 +63,30 @@ public class MainActivity extends ListActivity implements OnItemClickListener {
 			return;
 		}
 
-		loginUser();
+		if(!loggedIn){
+			loginUser();
+		}
+		
+		
+		
 		getUsers();
 
 		PushService.subscribe(this.getApplicationContext(), username,
 				ChatActivity.class);
 
 	}
+	
+
+
+	@Override
+
+	protected void onSaveInstanceState(Bundle state) {
+	    super.onSaveInstanceState(state);
+	    state.putBoolean("loggedIn", loggedIn);
+
+	}
+
+
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -82,6 +105,7 @@ public class MainActivity extends ListActivity implements OnItemClickListener {
 				if (user != null) {
 					// Hooray! The user is logged in.
 					currentUser = ParseUser.getCurrentUser();
+					loggedIn = true;
 					showToast("You are logged in as " + currentUser.getUsername());
 				} else {
 					// Signup failed. Look at the ParseException to see what

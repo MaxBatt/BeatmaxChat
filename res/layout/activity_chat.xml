@@ -6,16 +6,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ChatActivity" >
+    tools:context=".ChatActivity" 
+    android:id="@+id/parentLayout">
 
     <EditText
         android:id="@+id/chatField"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/button1"
-        android:ems="10" >
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/okBtn"
+        android:ems="10"
+        android:hint="Chat..." >
 
         <requestFocus />
     </EditText>
@@ -29,22 +31,13 @@
         android:onClick="send"
         android:text="OK" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_launcher" />
-
-    
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="15dp"
+		android:layout_alignTop="@+id/parrentLayout"
         android:orientation="vertical" 
         android:id="@+id/chatList">
     </LinearLayout>

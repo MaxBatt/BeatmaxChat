@@ -31,15 +31,26 @@
         android:onClick="send"
         android:text="OK" />
 
-    <LinearLayout
+
+
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/chatField"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="15dp"
-		android:layout_alignTop="@+id/parrentLayout"
-        android:orientation="vertical" 
-        android:id="@+id/chatList">
-    </LinearLayout>
+        android:layout_alignRight="@+id/okBtn" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" 
+            android:id="@+id/chatList">            
+           
+            
+        </LinearLayout>
+        
+    </ScrollView>
 
 </RelativeLayout>

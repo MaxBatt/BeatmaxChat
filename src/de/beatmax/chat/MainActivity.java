@@ -35,8 +35,8 @@ public class MainActivity extends ListActivity implements OnItemClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		if(savedInstanceState != null){
+
+		if (savedInstanceState != null) {
 			loggedIn = savedInstanceState.getBoolean("loggedIn");
 		}
 		loggedIn = false;
@@ -56,37 +56,45 @@ public class MainActivity extends ListActivity implements OnItemClickListener {
 
 		// System.out.println("USer: " + username + "PW: " + password);
 
-		// If user not created yet, go to RegisterActivity
 		if (username == null || password == null) {
 			Intent i = new Intent(this, RegisterActivity.class);
-			startActivity(i);
-			return;
+			startActivityForResult(i, 1);
+		} else {
+			if (!loggedIn) {
+				loginUser();
+			}
 		}
-
-		if(!loggedIn){
-			loginUser();
-		}
-		
-		
-		
-		getUsers();
-
-		PushService.subscribe(this.getApplicationContext(), username,
-				ChatActivity.class);
 
 	}
-	
-
 
 	@Override
-
 	protected void onSaveInstanceState(Bundle state) {
-	    super.onSaveInstanceState(state);
-	    state.putBoolean("loggedIn", loggedIn);
+		super.onSaveInstanceState(state);
+		state.putBoolean("loggedIn", loggedIn);
 
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// If user not created yet, go to RegisterActivity
 
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		if (requestCode == 1) {
+			if (resultCode == RESULT_OK) {
+				username = data.getStringExtra("username");
+				password = data.getStringExtra("password");
+
+				loginUser();
+			}
+			if (resultCode == RESULT_CANCELED) {
+				// Write your code if there's no result
+			}
+		}
+	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -106,7 +114,14 @@ public class MainActivity extends ListActivity implements OnItemClickListener {
 					// Hooray! The user is logged in.
 					currentUser = ParseUser.getCurrentUser();
 					loggedIn = true;
-					showToast("You are logged in as " + currentUser.getUsername());
+					
+					getUsers();
+
+					PushService.subscribe(getApplicationContext(), username,
+							ChatActivity.class);
+					
+					showToast("Du bist eingeloggt, "
+							+ currentUser.getUsername() + "!");
 				} else {
 					// Signup failed. Look at the ParseException to see what
 					// happened.
@@ -145,7 +160,8 @@ public class MainActivity extends ListActivity implements OnItemClickListener {
 	}
 
 	private void showToast(String msg) {
-		Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(getApplicationContext(), msg,
+				Toast.LENGTH_SHORT);
 		toast.setGravity(Gravity.TOP, 0, 600);
 		toast.show();
 	}

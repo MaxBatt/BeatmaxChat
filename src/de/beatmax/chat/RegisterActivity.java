@@ -2,6 +2,7 @@ package de.beatmax.chat;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.os.Bundle;
@@ -142,9 +143,18 @@ public class RegisterActivity extends Activity {
 					editor.putString("password", password);
 					editor.commit();
 					showToast("Benutzer angelegt");
-					RegisterActivity.this.finish();
+					
+					Intent i = new Intent();
+					 i.putExtra("username",username);
+					 i.putExtra("password",password);
+					 setResult(RESULT_OK,i);     
+					 finish();
+					
 				} else {
 					showToast(e.getMessage());
+					Intent i = new Intent();
+					setResult(RESULT_CANCELED, i);        
+					finish();
 				}
 			}
 		});

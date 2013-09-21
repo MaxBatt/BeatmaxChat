@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -201,8 +202,6 @@ public class ChatActivity extends Activity {
 			tv.setPadding(0,25,15,25);
 		}
 		tr.addView(tv);
-		
-		tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_launcher, 0, 0, 0);
 
 		chatList.addView(tr);
 		closeKeyboard();
